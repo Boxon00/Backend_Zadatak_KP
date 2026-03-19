@@ -1,8 +1,8 @@
-# Backend Developer Zadatak — Refaktorizacija
+# Backend Developer Zadatak — Refaktorisanje
 
 ## Opis projekta
 
-Ovaj projekat predstavlja refaktorisanu verziju originalnog PHP koda koji je bio napisan proceduralno, bez strukture i sa brojnim sigurnosnim propustima. Cilj refaktorizacije je bio da se kod prepiše korišćenjem **SOLID principa** i **Design Patterns-a**, bez korišćenja gotovog framework rješenja.
+Ovaj projekat predstavlja refaktorisanu verziju originalnog PHP koda koji je bio napisan proceduralno, bez strukture i sa brojnim sigurnosnim propustima. Cilj refaktorisanja je bio da se kod prepiše korišćenjem **SOLID principa** i **Design Patterns-a**, bez korišćenja gotovog framework rešenja.
 
 ---
 
@@ -18,28 +18,28 @@ registration/
 ├── src/
 │   ├── Database/
 │   │   ├── Connection.php              # mysqli wrapper (Singleton pattern)
-│   │   ├── Expression.php              # Raw SQL expression (npr. NOW())
+│   │   ├── Expression.php              # Raw SQL izraz (npr. NOW())
 │   │   └── QueryBuilder.php            # Fluent query builder (Builder pattern)
 │   ├── Fraud/
-│   │   ├── MaxMindClientInterface.php  # Interface za fraud detekciju
+│   │   ├── MaxMindClientInterface.php  # Interfejs za fraud detekciju
 │   │   └── MaxMindClient.php           # Simulirani MaxMind klijent
 │   ├── Http/
-│   │   ├── Request.php                 # Wrapper za HTTP request
+│   │   ├── Request.php                 # Wrapper za HTTP zahtev
 │   │   └── JsonResponse.php            # JSON response helper
 │   ├── Logger/
 │   │   └── UserLogger.php              # Logovanje akcija korisnika
 │   ├── Mail/
-│   │   ├── MailerInterface.php         # Interface za slanje emaila
-│   │   └── Mailer.php                  # Implementacija mail slanja
+│   │   ├── MailerInterface.php         # Interfejs za slanje emaila
+│   │   └── Mailer.php                  # Implementacija slanja emaila
 │   ├── Repository/
 │   │   └── UserRepository.php          # Pristup bazi za User entitet (Repository pattern)
 │   ├── Service/
 │   │   └── RegistrationService.php     # Orkestracija registracije
 │   └── Validation/
-│       ├── RuleInterface.php           # Interface za validaciona pravila
-│       ├── Validator.php               # Validator koji primjenjuje pravila (Strategy pattern)
+│       ├── RuleInterface.php           # Interfejs za validaciona pravila
+│       ├── Validator.php               # Validator koji primenjuje pravila (Strategy pattern)
 │       └── Rules/
-│           ├── RequiredRule.php        # Provjera obaveznog polja
+│           ├── RequiredRule.php        # Provera obaveznog polja
 │           ├── EmailFormatRule.php     # RFC 5321/5322 validacija emaila
 │           ├── MinLengthRule.php       # Minimalna dužina stringa
 │           ├── PasswordMatchRule.php   # Poklapanje lozinki
@@ -51,7 +51,7 @@ registration/
 
 ---
 
-## Primijenjeni SOLID principi
+## Primenjeni SOLID principi
 
 ### S — Single Responsibility Principle
 Svaka klasa ima samo jednu odgovornost:
@@ -66,10 +66,10 @@ Svaka klasa ima samo jednu odgovornost:
 - `UserLogger.php` — samo loguje akcije
 
 ### O — Open/Closed Principle
-Validator sistem je otvoren za proširenje, zatvoren za izmjenu. Nova validaciona provjera se dodaje kreiranjem nove klase koja implementira `RuleInterface` — bez ikakve izmjene postojećeg koda.
+Validator sistem je otvoren za proširenje, zatvoren za izmenu. Nova validaciona provera se dodaje kreiranjem nove klase koja implementira `RuleInterface` — bez ikakve izmene postojećeg koda.
 
 ### L — Liskov Substitution Principle
-`MaxMindClient` i fake klijent korišten u testovima su potpuno zamjenjivi jer oba implementiraju `MaxMindClientInterface`.
+`MaxMindClient` i fake klijent korišćen u testovima su potpuno zamenljivi jer oba implementiraju `MaxMindClientInterface`.
 
 ### I — Interface Segregation Principle
 Svi interfejsi su mali i fokusirani sa samo jednim metodom:
@@ -84,9 +84,9 @@ Sve zavisnosti se injektuju kroz konstruktor. Visoko-nivoske klase zavise od aps
 
 ---
 
-## Korišteni Design Patterns
+## Korišćeni Design Patterns
 
-| Pattern | Gdje se koristi |
+| Pattern | Gde se koristi |
 |---|---|
 | **Strategy** | `RuleInterface` + sve klase u `Rules/` folderu |
 | **Repository** | `UserRepository.php` |
@@ -96,23 +96,23 @@ Sve zavisnosti se injektuju kroz konstruktor. Visoko-nivoske klase zavise od aps
 
 ---
 
-## Ispravljeni bugovi iz originalnog koda
+## Ispravljeni bagovi iz originalnog koda
 
-| Bug | Originalni kod | Ispravljeno |
+| Bag | Originalni kod | Ispravljeno |
 |---|---|---|
-| Typo | `preg_meatch()` | `preg_match()` |
-| SQL Injection | `"WHERE email = '$email'"` | `QueryBuilder` escapuje sve vrijednosti |
-| Plain text lozinka | `password = '$password'` | `password_hash()` sa bcrypt |
+| Greška u kucanju | `preg_meatch()` | `preg_match()` |
+| SQL Injection | `"WHERE email = '$email'"` | `QueryBuilder` eskejpuje sve vrednosti |
+| Lozinka u plain textu | `password = '$password'` | `password_hash()` sa bcrypt |
 | Copy/paste greška | `mb_strlen($password)` za password2 | `mb_strlen($password2)` |
 | Pogrešna error poruka | `password_mismatch` za duplikat emaila | `email_taken` |
 | Nema strukture | Sve u jednom fajlu | 25 fajlova, OOP, SOLID |
 
 ---
 
-## Dodatni zahtjevi
+## Dodatni zahtevi
 
 ### Email jedinstvenost u sistemu
-Implementirano kroz `UniqueEmailRule.php` koji koristi `UserRepository::emailExists()` da provjeri da li email već postoji u bazi.
+Implementirano kroz `UniqueEmailRule.php` koji koristi `UserRepository::emailExists()` da proveri da li email već postoji u bazi.
 
 ### MaxMind fraud detekcija (simulacija)
 Implementirano kroz:
@@ -142,7 +142,7 @@ Implementirano kroz `Expression.php` koja omogućava prosleđivanje sirovih SQL 
 
 ## Pokretanje projekta
 
-### Zahtjevi
+### Zahtevi
 - PHP 8.1+
 - MySQL / MariaDB
 
@@ -200,7 +200,7 @@ Results: 30 passed, 0 failed
 | password | string | Lozinka (minimum 8 karaktera) |
 | password2 | string | Potvrda lozinke |
 
-**Uspješan odgovor:**
+**Uspešan odgovor:**
 ```json
 {
     "success": true,
