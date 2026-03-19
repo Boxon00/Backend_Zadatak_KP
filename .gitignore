@@ -1,0 +1,14 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+*.swp
+
+# PHP
+vendor/
+composer.lock
+
+# Logs
+*.log
