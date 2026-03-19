@@ -237,3 +237,35 @@ Projekat sadrži 30 unit testova koji pokrivaju sve validacione slučajeve:
 - `Expression` — 2 testa
 
 Svi testovi rade bez konekcije na bazu podataka.
+
+---
+
+## Testiranje
+
+Projekat je testiran na sledeće načine:
+
+### Postman
+Svi API endpointi su testirani kroz Postman:
+- ✅ Uspešna registracija
+- ✅ Prazan email
+- ✅ Pogrešan format emaila
+- ✅ Kratka lozinka
+- ✅ Lozinke se ne poklapaju
+- ✅ Duplikat emaila
+- ✅ MaxMind fraud detekcija
+
+### HeidiSQL
+Nakon svake registracije provereno u HeidiSQL:
+- ✅ Korisnik upisan u tabelu `user`
+- ✅ Lozinka hashirana bcrypt algoritmom
+- ✅ Log upisan u tabelu `user_log` sa tačnim vremenom
+
+### Unit testovi
+
+```bash
+php tests/ValidatorTest.php
+```
+
+```
+Results: 30 passed, 0 failed
+```
