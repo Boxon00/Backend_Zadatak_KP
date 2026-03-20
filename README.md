@@ -10,9 +10,6 @@ Ovaj projekat predstavlja refaktorisanu verziju originalnog PHP koda koji je bio
 
 ```
 registration/
-├── bootstrap.php                       # Autoloader — registruje sve App\ klase
-├── .gitignore                          # Ignorisani fajlovi za Git
-├── README.md                           # Dokumentacija projekta
 ├── public/
 │   └── register.php                    # HTTP entry point
 ├── src/
@@ -21,32 +18,35 @@ registration/
 │   │   ├── Expression.php              # Raw SQL izraz (npr. NOW())
 │   │   └── QueryBuilder.php            # Fluent query builder (Builder pattern)
 │   ├── Fraud/
-│   │   ├── MaxMindClientInterface.php  # Interfejs za fraud detekciju
-│   │   └── MaxMindClient.php           # Simulirani MaxMind klijent
+│   │   ├── MaxMindClient.php           # Simulirani MaxMind klijent
+│   │   └── MaxMindClientInterface.php  # Interfejs za fraud detekciju
 │   ├── Http/
-│   │   ├── Request.php                 # Wrapper za HTTP zahtev
-│   │   └── JsonResponse.php            # JSON response helper
+│   │   ├── JsonResponse.php            # JSON response helper
+│   │   └── Request.php                 # Wrapper za HTTP zahtev
 │   ├── Logger/
 │   │   └── UserLogger.php              # Logovanje akcija korisnika
 │   ├── Mail/
-│   │   ├── MailerInterface.php         # Interfejs za slanje emaila
-│   │   └── Mailer.php                  # Implementacija slanja emaila
+│   │   ├── Mailer.php                  # Implementacija slanja emaila
+│   │   └── MailerInterface.php         # Interfejs za slanje emaila
 │   ├── Repository/
 │   │   └── UserRepository.php          # Pristup bazi za User entitet (Repository pattern)
 │   ├── Service/
 │   │   └── RegistrationService.php     # Orkestracija registracije
 │   └── Validation/
+│       ├── Rules/
+│       │   ├── EmailFormatRule.php     # RFC 5321/5322 validacija emaila
+│       │   ├── MaxMindRule.php         # MaxMind fraud detekcija
+│       │   ├── MinLengthRule.php       # Minimalna dužina stringa
+│       │   ├── PasswordMatchRule.php   # Poklapanje lozinki
+│       │   ├── RequiredRule.php        # Provera obaveznog polja
+│       │   └── UniqueEmailRule.php     # Email jedinstvenost u bazi
 │       ├── RuleInterface.php           # Interfejs za validaciona pravila
-│       ├── Validator.php               # Validator koji primenjuje pravila (Strategy pattern)
-│       └── Rules/
-│           ├── RequiredRule.php        # Provera obaveznog polja
-│           ├── EmailFormatRule.php     # RFC 5321/5322 validacija emaila
-│           ├── MinLengthRule.php       # Minimalna dužina stringa
-│           ├── PasswordMatchRule.php   # Poklapanje lozinki
-│           ├── UniqueEmailRule.php     # Email jedinstvenost u bazi
-│           └── MaxMindRule.php         # MaxMind fraud detekcija
-└── tests/
-    └── ValidatorTest.php               # 30 unit testova (bez baze podataka)
+│       └── Validator.php               # Validator koji primenjuje pravila (Strategy pattern)
+├── tests/
+│   └── ValidatorTest.php               # 30 unit testova (bez baze podataka)
+├── .gitignore                          # Ignorisani fajlovi za Git
+├── bootstrap.php                       # Autoloader — registruje sve App\ klase
+└── README.md                           # Dokumentacija projekta
 ```
 
 ---
